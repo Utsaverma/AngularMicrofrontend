@@ -1,0 +1,36 @@
+<div class="policy-search-container">
+    <label for="policyNumber">Enter Policy Number:</label>
+    <input type="text" id="policyNumber" [(ngModel)]="searchPolicyNumber" placeholder="Policy Number" />
+    <button (click)="fetchPolicyDetails()">Search</button>
+</div>
+
+<div *ngIf="selectedPolicy" class="insurance-details-card">
+    <h3>Policy: {{ selectedPolicy.policyNumber }}</h3>
+
+
+    <div><strong>Insured Name:</strong> {{ selectedPolicy.insuredName }}</div>
+    <div><strong>Policy Type:</strong> {{ selectedPolicy.policyType }}</div>
+    <div><strong>Start Date:</strong> {{ formatDate(selectedPolicy.startDate) }}</div>
+    <div><strong>End Date:</strong> {{ formatDate(selectedPolicy.endDate) }}</div>
+    <div><strong>Policy Status:</strong> {{ selectedPolicy.policyStatus }}</div>
+    <div><strong>Premium Amount:</strong> {{ selectedPolicy.premium | currency: 'INR' }}</div>
+    <div><strong>Coverage Amount:</strong> {{ selectedPolicy.coverageAmount | currency: 'INR' }}</div>
+
+
+    <h4>Insurer Details</h4>
+    <div><strong>Company Name:</strong> {{ selectedPolicy.insurerDetails.name }}</div>
+    <div><strong>Contact:</strong> {{ selectedPolicy.insurerDetails.contact }}</div>
+    <div><strong>Email:</strong> {{ selectedPolicy.insurerDetails.email }}</div>
+    <div><strong>Address:</strong> {{ selectedPolicy.insurerDetails.address }}</div>
+
+
+    <h4>Nominee Details</h4>
+    <div><strong>Name:</strong> {{ selectedPolicy.nomineeDetails.name }}</div>
+    <div><strong>Relation:</strong> {{ selectedPolicy.nomineeDetails.relation }}</div>
+    <div><strong>Contact:</strong> {{ selectedPolicy.nomineeDetails.contact }}</div>
+    <button class="btn btn-primary" (click)="onClickPayPremium(selectedPolicy.policyNumber)">Pay Premium</button>
+</div>
+
+<div *ngIf="selectedPolicy!==null && !selectedPolicy && searchPolicyNumber">
+    <p>No policy found for the given policy number.</p>
+</div>

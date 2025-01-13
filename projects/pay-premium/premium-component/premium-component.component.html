@@ -1,0 +1,40 @@
+<div class="premium-payment-card">
+    <h3>Premium Payment</h3>
+
+    <div>
+        <label for="policyNumber">Policy Number:</label>
+        <input type="text" id="policyNumber" [(ngModel)]="policyNumber" placeholder="Enter policy number" />
+        <button (click)="fetchPremium()">Fetch Premium</button>
+    </div>
+
+
+    <div *ngIf="premiumAmount !== null">
+        <p><strong>Policy Number:</strong> {{ policyNumber }}</p>
+        <p><strong>Premium Amount:</strong> {{ premiumAmount | currency: 'INR' }}</p>
+
+
+        <form #paymentForm="ngForm" (ngSubmit)="processPayment()">
+
+            <div>
+                <label for="paymentMethod">Payment Method:</label>
+                <select id="paymentMethod" [(ngModel)]="paymentDetails.paymentMethod" name="paymentMethod" required>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Net Banking">Net Banking</option>
+                    <option value="UPI">UPI</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="referenceNumber">Reference Number:</label>
+                <input type="text" id="referenceNumber" [(ngModel)]="paymentDetails.referenceNumber"
+                    name="referenceNumber" placeholder="Enter reference number" required />
+            </div>
+
+            <button type="submit" [disabled]="paymentForm.invalid">Pay Now</button>
+        </form>
+        <p> Premium Seems incorrect, <span class="link" (click)="recalculatePremium()">click here</span> to
+            re-calculate it </p>
+    </div>
+
+</div>
