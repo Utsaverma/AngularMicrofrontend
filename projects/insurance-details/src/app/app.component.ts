@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PolicyDetailsComponent } from '../../policy-details/policy-details.component';
 import { policyDS } from '../../../common/policyDetails';
+import { SharedServiceService } from '../../../insurance-app/shared/shared-service.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,14 @@ import { policyDS } from '../../../common/policyDetails';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'insurance-details';
+  insuranceList: any[] = [];
+  constructor(private sharedService: SharedServiceService) { }
 
-  insuranceList = policyDS;
+  ngOnInit(): void {
+    this.insuranceList = this.sharedService.getPolicyDetails()
+  }
 
   selectedPolicy: any = null;
 

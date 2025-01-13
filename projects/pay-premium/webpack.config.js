@@ -9,6 +9,10 @@ module.exports = withModuleFederationPlugin({
     './PremiumComponent': './projects/pay-premium/premium-component/premium-component.component.ts'
   },
 
+  remotes: {
+    host: 'http://localhost:4200/remoteEntry.js',
+  },
+
   shared: {
     ...shareAll({ singleton: true, strictVersion: true, requiredVersion: 'auto' }),
   },

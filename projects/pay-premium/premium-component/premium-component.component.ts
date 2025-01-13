@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { getPolicyNumber, policyDS } from '../../common/policyDetails';
+import { getPolicyNumber } from '../../common/policyDetails';
+import { SharedServiceService } from '../../insurance-app/shared/shared-service.service';
 
 @Component({
   selector: 'app-premium-component',
@@ -25,12 +26,12 @@ export class PremiumComponentComponent {
     referenceNumber: ''
   };
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private sharedService: SharedServiceService) { }
 
   ngOnInit(): void {
     this.policyNumber = this.route.snapshot.paramMap.get('policyNumber')!;
     console.log('policyNumber from localstorage ', getPolicyNumber());
-    this.policies = policyDS.reduce((acc, policy) => {
+    this.policies = this.sharedService.getPolicyDetails().reduce((acc, policy) => {
       acc[policy.policyNumber] = policy.premium;
       return acc;
     }, {} as { [key: string]: number });

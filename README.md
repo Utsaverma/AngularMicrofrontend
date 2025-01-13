@@ -1,59 +1,100 @@
-# ContainerApp
+# Microfrontend Architecture for Insurance Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.7.
+This project demonstrates a microfrontend architecture built with Angular 19+ using **Module Federation** to create a scalable and flexible insurance application. The setup consists of three applications:
 
-## Development server
+- **insurance-app** (Host)
+- **insurance-details** (Remote 1)
+- **pay-premium** (Remote 2)
 
-To start a local development server, run:
+Each application operates independently but is seamlessly integrated using Angular's Module Federation. 
 
-```bash
-ng serve
-```
+## Project Overview
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Host: `insurance-app` (Running on port `4200`)
+The host application is responsible for loading the remote applications (`insurance-details` and `pay-premium`) and managing shared states like policy data.
 
-## Code scaffolding
+### Remote 1: `insurance-details` (Running on port `4201`)
+This remote application displays the insurance details for the user and fetches shared data from the host via a shared service.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Remote 2: `pay-premium` (Running on port `4202`)
+This remote application allows the user to pay insurance premiums, and it is capable of interacting with the `insurance-details` application through route parameters and shared services.
 
-```bash
-ng generate component component-name
-```
+## Features
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **Module Federation:** Utilizes Angular 19+ with the `@angular-architects/module-federation` plugin for seamless integration between the host and remote applications.
+  
+- **Shared Services:** A shared service allows the host to provide common data (such as insurance policies) to the remote applications (`insurance-details` and `pay-premium`).
+  
+- **Cross-Application Navigation:** The `insurance-details` application can navigate to `pay-premium` using the policy number passed as a route parameter.
 
-```bash
-ng generate --help
-```
+- **LocalStorage Integration:** Data such as policy details or premium calculations are stored in `localStorage` to enhance the user experience by reducing data fetching.
 
-## Building
+- **SCSS Pre-Processors:** SCSS is used for styling and is fully integrated across all three applications for a consistent look and feel.
 
-To build the project run:
+- **SQL Injection Protection:** The application performs thorough sanitization and validation of user inputs to prevent SQL injection and ensure secure interaction with backend services.
 
-```bash
-ng build
-```
+- **Service Workers for Premium Calculation:** The application includes service workers to provide an offline-first experience, particularly for premium recalculation. Users can get a 5% discount on their premiums via a worker that recalculates the premium rate.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Application Architecture
 
-## Running unit tests
+- **Host Application (`insurance-app`)**: 
+  - Loads and integrates remote applications (`insurance-details`, `pay-premium`).
+  - Shares a common service for data synchronization.
+  
+- **Remote 1 (`insurance-details`)**: 
+  - Displays insurance policies using shared data.
+  - Uses route parameters to navigate to `pay-premium` for premium payments.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- **Remote 2 (`pay-premium`)**: 
+  - Allows users to make premium payments.
+  - Fetches necessary data from the host and remote 1 via shared services.
+  - Integrates service workers for offline calculations.
 
-```bash
-ng test
-```
+## Getting Started
 
-## Running end-to-end tests
+### Prerequisites
 
-For end-to-end (e2e) testing, run:
+- Node.js (v22 or above)
+- Angular CLI (v19 or above)
 
-```bash
-ng e2e
-```
+### Installation
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Utsaverma/AngularMicrofrontend.git
+   cd container-app
+2. Install dependencies for all three applications:
+    ```bash
+    npm install
+3. Configure the ports for each application in their respective `angular.json` files:
+4. Run all three applications concurrently:
+    ```bash
+    - ng serve --port 4200 --project insurance-app
+    
+    - ng serve --port 4201 --project insurance-details
 
-## Additional Resources
+    - ng serve --port 4202 --project pay-premium
+5. Open your browser and navigate to:
+   - insurance-app: http://localhost:4200
+     - This will act as a container
+     - http://localhost:4200/insurance-details will point to insurance-details (remote 1)
+     - http://localhost:4200/premium-payment will point to pay-premium (remote 2)
+   - Related remotes are also available at:
+     - insurance-details: http://localhost:4201
+     - pay-premium: http://localhost:4202
+### SQL Injection Protection
+The project uses parameterized queries, input validation, and sanitization techniques to protect against SQL injection. Always validate and sanitize user inputs before making any interactions with the database.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Service Workers for Premium Calculation
+Service workers are implemented to offload the recalculation of premiums, allowing for a smoother and faster user experience. This feature recalculates premiums when the user interacts with the system and applies a 5% discount when eligible.
+
+### Shared Service
+A shared service is used for synchronizing data between the host and remote applications. This service ensures that both insurance-details and pay-premium can access and update data like policy information, premium amounts, and user preferences.
+
+### Routing and Cross-Navigation
+The insurance-details app can navigate to pay-premium by passing the policy number via route parameters
+
+### Conclusion
+This project demonstrates a robust microfrontend architecture using Angular and Module Federation to build an insurance application. With the integration of shared services, cross-app navigation, localStorage, and service workers, the app offers a smooth, secure, and optimized user experience.
+
+For further questions or contributions, feel free to reach out!

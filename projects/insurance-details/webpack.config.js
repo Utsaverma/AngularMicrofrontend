@@ -4,6 +4,10 @@ module.exports = withModuleFederationPlugin({
 
   name: 'insuranceDetails',
 
+  remotes: {
+    host: 'http://localhost:4200/remoteEntry.js',
+  },
+
   exposes: {
     './Component': './projects/insurance-details/src/app/app.component.ts',
   },

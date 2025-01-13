@@ -3,7 +3,6 @@ import { CommonModule, } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { setPolicyNumber } from '../../common/policyDetails';
-import { SharedServiceService } from 'host/SharedService';
 
 @Component({
   selector: 'app-policy-details',
@@ -21,7 +20,6 @@ export class PolicyDetailsComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    // console.log(this.sharedService.getSharedData());
   }
 
   formatDate(date: string): string {

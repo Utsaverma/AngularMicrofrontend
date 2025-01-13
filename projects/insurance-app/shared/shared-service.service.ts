@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { policyDS } from '../../common/policyDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,11 @@ export class SharedServiceService {
 
   constructor() { }
 
-  public getSharedData() {
-    return 'Shared data from the host!';
+  getData() {
+    return 'Shared Data';
+  }
+
+  getPolicyDetails() {
+    return policyDS;
   }
 }
